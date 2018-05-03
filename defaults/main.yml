@@ -1,0 +1,8 @@
+---
+chronograf_port: 8888
+chronograf_listen: 0.0.0.0
+chronograf_influxdb_url: http://127.0.0.1:8086
+chronograf_service_name: chronograf
+chronograf_service_state: 'started'
+chronograf_service_enabled: 'yes'
+chronograf_apt_repo_url: "deb https://repos.influxdata.com/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"

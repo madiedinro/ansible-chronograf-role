@@ -1,0 +1,44 @@
+---
+
+- name: 'Debian - Import InfluxData GPG signing key'
+  apt_key:
+    url: 'https://repos.influxdata.com/influxdb.key'
+    state: 'present'
+
+- name: 'Debian - Manage InfluxData repository'
+  apt_repository:
+    repo: "{{ chronograf_apt_repo_url }}"
+    state: present
+
+- name: 'Debian - Install Chronograf from apt repository'
+  apt:
+    update_cache: true
+    name: 'chronograf'
+
+- name: 'Manage Chronograf service'
+  service:
+    name: '{{chronograf_service_name}}'
+    state: "{{ chronograf_service_state }}"
+    enabled: "{{ chronograf_service_enabled }}"
+  tags: 'chronograf-service'
+
+
+#- name: Add systemd Script
+#  template:
+#    src: systemd.j2
+#    dest: "/lib/systemd/system/{{ chronograf_service_name }}.service"
+#  become: yes
+#  tags: ['systemd']
+#
+
+- name: Force systemd to reread configs
+  systemd: daemon_reload=yes
+  become: true
+  tags: ['systemd']
+
+- name: Enabling and restarting systemd service
+  systemd:
+    name: '{{ chronograf_service_name }}.service'
+    state: restarted
+    enabled: True
+  tags: ['systemd']
