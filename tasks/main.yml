@@ -23,13 +23,13 @@
   tags: 'chronograf-service'
 
 
-#- name: Add systemd Script
-#  template:
-#    src: systemd.j2
-#    dest: "/lib/systemd/system/{{ chronograf_service_name }}.service"
-#  become: yes
-#  tags: ['systemd']
-#
+- name: Add systemd Script
+  template:
+    src: systemd.j2
+    dest: "/lib/systemd/system/{{ chronograf_service_name }}.service"
+  become: yes
+  tags: ['systemd']
+
 
 - name: Force systemd to reread configs
   systemd: daemon_reload=yes
